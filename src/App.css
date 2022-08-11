@@ -8,3 +8,19 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.favorite {
+  border: 0;
+  background-color: transparent;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+}
+
+.navbarTitle {
+  margin: 20px;
+}

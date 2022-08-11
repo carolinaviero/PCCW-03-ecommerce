@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Book = ({ book, handleAddToFavorites }) => {
+const Book = ({ book, handleAddToFavorites, handleAddToCart }) => {
     const [isFav, setIsFav] = useState(false);
 
     const handleIsFavClick = (book) => {
@@ -9,11 +9,12 @@ const Book = ({ book, handleAddToFavorites }) => {
     }
 
     return (
-        <div>
-            <button onClick={() => handleIsFavClick(book)}>{isFav ? '❤️' : '🤍'}</button>
+        <div className="book">
+            <button className="favorite" onClick={() => handleIsFavClick(book)}>{isFav ? '❤️' : '💛'}</button>
             <img src={book?.image} alt={book?.title} />
             <h4>{book?.title}</h4>
             <p>{book?.price}</p>
+            <button onClick={() => handleAddToCart(book)}>Add to cart</button>
         </div>
     )
 }

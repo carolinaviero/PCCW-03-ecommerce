@@ -4,8 +4,10 @@ import Book from './components/Book';
 import './App.css';
 
 function App() {
-  const [data, setData] = useState([])
-  const [favoriteBooks, setFavoriteBooks] = useState([])
+  const [data, setData] = useState([]);
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
+  const [price, setPrice] = useState(0);
+  const [booksInCart, setBooksInCart] = useState([]);
 
   const fetchData = () => {
     fetch('https://api.itbook.store/1.0/new')
@@ -15,7 +17,7 @@ function App() {
 
   useEffect(fetchData, [])
 
-  const handleAddToFavorites = (book, isFav) => {
+  const handleAddToFavorites = (book) => {
     const foundBook = favoriteBooks.find(b => b.isbn13 === book.isbn13);
 
     if (foundBook) {
@@ -24,12 +26,30 @@ function App() {
       setFavoriteBooks([...favoriteBooks, book])
     }
   }
-  
+
+  const handleAddToCart = (book) => {
+    const total = price + Number(book.price.substring(1));
+    setPrice(total);
+
+    let isInCart = booksInCart.find(b => b.isbn13 === book.isbn13);
+
+    let newCart = [...booksInCart];
+
+    if (!isInCart) {
+      isInCart = { ...book, quantity: 1 }
+      newCart.push(isInCart)
+    } else {
+      isInCart.quantity ++;
+    }
+
+    setBooksInCart(newCart)
+  }
+
   return (
     <div className="App">
-      <Navbar />
+      <Navbar total={price} />
       <h1>Books Available</h1>
-      <div className="book-list">{data.map(el => <Book book={el} handleAddToFavorites={handleAddToFavorites}/>)}</div>
+      <div className="book-list">{data.map(el => <Book book={el} key={el.isbn13} handleAddToFavorites={handleAddToFavorites} handleAddToCart={handleAddToCart} />)}</div>
       <Book />
     </div>
   );
