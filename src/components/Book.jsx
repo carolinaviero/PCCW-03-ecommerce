@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-const Book = ({ book, handleAddToFavorites, handleAddToCart }) => {
-    const [isFav, setIsFav] = useState(false);
+const Book = ({ book, handleAddToFavorites, handleAddToCart, isFavorited }) => {
+    const [isFav, setIsFav] = useState(isFavorited);
 
     const handleIsFavClick = (book) => {
         setIsFav(!isFav)

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './components/Navbar';
-import Book from './components/Book';
+import Books from './components/Books';
+import Cart from './components/Cart';
+import Favorites from './components/Favorites';
 import './App.css';
 
 function App() {
@@ -46,12 +49,16 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Navbar total={price} />
-      <h1>Books Available</h1>
-      <div className="book-list">{data.map(el => <Book book={el} key={el.isbn13} handleAddToFavorites={handleAddToFavorites} handleAddToCart={handleAddToCart} />)}</div>
-      <Book />
-    </div>
+    <Router>
+      <div className="App">
+        <Navbar total={price} />
+        <Routes>
+          <Route path="/" element={<Books books={data} handleAddToFavorites={handleAddToFavorites} handleAddToCart={handleAddToCart} />} />
+          <Route path="/favorites" element={<Favorites favoriteBooks={favoriteBooks} />} />
+          <Route path="/cart" element={<Cart booksInCart={booksInCart} total={price} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
